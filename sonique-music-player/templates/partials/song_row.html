@@ -1,0 +1,40 @@
+{% load static %}
+<div class="song-row"
+     data-song-id="{{ song.id }}"
+     data-title="{{ song.title }}"
+     data-artist="{{ song.artist.name }}"
+     data-audio="{{ song.audio_file.url }}"
+     data-cover="{% if song.get_cover_url %}{{ song.get_cover_url }}{% endif %}">
+  <button class="row-play-btn" aria-label="Play {{ song.title }}">
+    <svg class="row-play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <span class="row-index">{{ forloop.counter|default:"" }}</span>
+  </button>
+  <div class="row-art">
+    {% if song.get_cover_url %}
+      <img src="{{ song.get_cover_url }}" alt="">
+    {% else %}
+      <div class="art-fallback small">&#9835;</div>
+    {% endif %}
+  </div>
+  <div class="row-info">
+    <p class="row-title">{{ song.title }}</p>
+    <p class="row-artist">{{ song.artist.name }}</p>
+  </div>
+  <span class="row-album">{{ song.album.title|default:"—" }}</span>
+  <span class="row-duration">{{ song.duration_display }}</span>
+  <div class="row-actions">
+    <button class="icon-btn row-like-btn{% if song.id in user_favorite_ids %} active{% endif %}" data-song-id="{{ song.id }}" aria-label="Like">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.35-9.5-8.8C1 8 2.4 4.5 6 4.1c2-.2 3.6.9 4.5 2.4a5 5 0 0 1 3-2.4c3.6-.4 5 3 4 7.1C15.9 15.65 12 20 12 20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    </button>
+    {% if show_add_to_playlist %}
+    <button class="icon-btn row-add-btn" data-song-id="{{ song.id }}" aria-label="Add to playlist">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    {% endif %}
+    {% if show_remove %}
+    <button class="icon-btn row-remove-btn" data-song-id="{{ song.id }}" data-playlist-id="{{ playlist.id }}" aria-label="Remove">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    {% endif %}
+  </div>
+</div>

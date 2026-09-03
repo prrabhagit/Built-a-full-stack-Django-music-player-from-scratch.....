@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Search — Sonique{% endblock %}
+{% block content %}
+<section class="row-section">
+  <h1 class="page-title">Search</h1>
+  <div class="search-page-bar">
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <input type="text" id="search-input" placeholder="Search songs, artists, albums, genres..." value="{{ query }}" autofocus>
+  </div>
+</section>
+
+<section class="row-section" id="search-results">
+  <p class="empty-state" id="search-empty">Start typing to search your library.</p>
+
+  <div id="search-songs-wrap" style="display:none">
+    <div class="section-head"><h2>Songs</h2></div>
+    <div class="song-list" id="search-songs"></div>
+  </div>
+
+  <div id="search-artists-wrap" style="display:none">
+    <div class="section-head"><h2>Artists</h2></div>
+    <div class="chip-list" id="search-artists"></div>
+  </div>
+
+  <div id="search-albums-wrap" style="display:none">
+    <div class="section-head"><h2>Albums</h2></div>
+    <div class="chip-list" id="search-albums"></div>
+  </div>
+
+  <div id="search-genres-wrap" style="display:none">
+    <div class="section-head"><h2>Genres</h2></div>
+    <div class="chip-list" id="search-genres"></div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/search.js' %}"></script>
+{% endblock %}

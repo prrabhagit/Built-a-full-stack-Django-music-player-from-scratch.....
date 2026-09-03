@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Profile — Sonique{% endblock %}
+{% block content %}
+<section class="row-section">
+  <h1 class="page-title">Your Profile</h1>
+
+  <div class="profile-stats">
+    <div class="stat-card"><p class="stat-value">{{ stats.playlist_count }}</p><p class="stat-label">Playlists</p></div>
+    <div class="stat-card"><p class="stat-value">{{ stats.favorite_count }}</p><p class="stat-label">Liked songs</p></div>
+    <div class="stat-card"><p class="stat-value">{{ stats.songs_played }}</p><p class="stat-label">Songs played</p></div>
+  </div>
+
+  <form method="post" enctype="multipart/form-data" class="auth-form profile-form">
+    {% csrf_token %}
+    <label class="field-label">Avatar
+      {{ form.avatar }}
+    </label>
+    <label class="field-label">Bio
+      {{ form.bio }}
+    </label>
+    <button type="submit" class="btn btn-primary">Save changes</button>
+  </form>
+</section>
+{% endblock %}

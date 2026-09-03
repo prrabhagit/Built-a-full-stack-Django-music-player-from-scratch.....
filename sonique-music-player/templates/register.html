@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Sign up — Sonique{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="sidebar-brand center"><span class="brand-mark">&#9679;</span><span class="brand-name">Sonique</span></div>
+    <h1 class="auth-title">Create your account</h1>
+    <p class="auth-sub">Start building playlists in seconds.</p>
+    <form method="post" class="auth-form">
+      {% csrf_token %}
+      {% for field in form %}
+        <label class="field-label">{{ field.label }}
+          {{ field }}
+        </label>
+        {% for error in field.errors %}<p class="form-error">{{ error }}</p>{% endfor %}
+      {% endfor %}
+      <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+    </form>
+    <p class="auth-footnote">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+  </div>
+</div>
+{% endblock %}

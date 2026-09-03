@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+venv/
+env/
+db.sqlite3
+media/songs/*
+media/covers/*
+!media/songs/.gitkeep
+!media/covers/.gitkeep
+staticfiles/
+.DS_Store

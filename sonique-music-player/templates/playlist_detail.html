@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ playlist.name }} — Sonique{% endblock %}
+{% block content %}
+<section class="row-section">
+  <div class="page-header liked-header">
+    <div class="liked-art playlist-hero-art">
+      {% with covers=playlist.cover_urls %}
+        {% if covers %}{% for c in covers|slice:":1" %}<img src="{{ c }}" alt="">{% endfor %}
+        {% else %}<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>{% endif %}
+      {% endwith %}
+    </div>
+    <div>
+      <p class="eyebrow">Playlist</p>
+      <h1 class="page-title" id="playlist-name-display">{{ playlist.name }}</h1>
+      {% if playlist.description %}<p class="page-sub">{{ playlist.description }}</p>{% endif %}
+      <p class="page-sub">{{ playlist_songs|length }} song{{ playlist_songs|length|pluralize }}</p>
+    </div>
+  </div>
+
+  <div class="playlist-toolbar">
+    <button class="btn btn-primary play-all-btn" id="play-all-btn"
+            data-playlist-id="{{ playlist.id }}">&#9654; Play</button>
+    <button class="btn btn-ghost" id="rename-playlist-btn" data-playlist-id="{{ playlist.id }}">Rename</button>
+    <button class="btn btn-ghost danger" id="delete-playlist-btn" data-playlist-id="{{ playlist.id }}">Delete</button>
+  </div>
+
+  {% if playlist_songs %}
+  <div class="song-list" id="playlist-song-list" data-playlist-id="{{ playlist.id }}">
+    {% for ps in playlist_songs %}
+      {% with song=ps.song show_remove=True %}
+        {% include "partials/song_row.html" %}
+      {% endwith %}
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="empty-state">This playlist is empty. Add songs from the search page or homepage.</p>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/playlist_detail.js' %}"></script>
+{% endblock %}

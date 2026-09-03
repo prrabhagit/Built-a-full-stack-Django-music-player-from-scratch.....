@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Log in — Sonique{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="sidebar-brand center"><span class="brand-mark">&#9679;</span><span class="brand-name">Sonique</span></div>
+    <h1 class="auth-title">Welcome back</h1>
+    <p class="auth-sub">Log in to keep your playlists and favorites in sync.</p>
+    <form method="post" class="auth-form">
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <p class="form-error">{{ form.non_field_errors.0 }}</p>
+      {% endif %}
+      <label class="field-label">Username
+        <input type="text" name="username" autofocus required class="field-input">
+      </label>
+      <label class="field-label">Password
+        <input type="password" name="password" required class="field-input">
+      </label>
+      <button type="submit" class="btn btn-primary btn-block">Log in</button>
+    </form>
+    <p class="auth-footnote">Don't have an account? <a href="{% url 'register' %}">Sign up</a></p>
+  </div>
+</div>
+{% endblock %}

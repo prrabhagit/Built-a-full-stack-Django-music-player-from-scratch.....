@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Playlists — Sonique{% endblock %}
+{% block content %}
+<section class="row-section">
+  <div class="section-head">
+    <h1 class="page-title">Your Playlists</h1>
+    <button class="btn btn-primary" id="new-playlist-btn">+ New Playlist</button>
+  </div>
+
+  {% if playlists %}
+  <div class="card-grid">
+    {% for pl in playlists %}
+    <a href="{% url 'playlist_detail' pl.pk %}" class="playlist-card" data-playlist-id="{{ pl.id }}">
+      <div class="playlist-card-art">
+        {% with covers=pl.cover_urls %}
+          {% if covers %}{% for c in covers|slice:":1" %}<img src="{{ c }}" alt="">{% endfor %}
+          {% else %}<div class="art-fallback">&#9835;</div>{% endif %}
+        {% endwith %}
+      </div>
+      <p class="song-card-title">{{ pl.name }}</p>
+      <p class="song-card-artist">{{ pl.song_count }} songs</p>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="empty-state">You haven't created any playlists yet. Start one above.</p>
+  {% endif %}
+</section>
+
+<div class="modal-overlay" id="playlist-modal-overlay">
+  <div class="modal">
+    <h2>Create playlist</h2>
+    <form method="post" class="modal-form">
+      {% csrf_token %}
+      <label class="field-label">Name
+        {{ form.name }}
+      </label>
+      <label class="field-label">Description
+        {{ form.description }}
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="cancel-playlist-btn">Cancel</button>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('new-playlist-btn')?.addEventListener('click', () => {
+  document.getElementById('playlist-modal-overlay').classList.add('open');
+});
+document.getElementById('cancel-playlist-btn')?.addEventListener('click', () => {
+  document.getElementById('playlist-modal-overlay').classList.remove('open');
+});
+</script>
+{% endblock %}

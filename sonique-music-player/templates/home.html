@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Sonique — Home{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <h1>Good {% now "H" as hour %}{% if hour|add:0 < 12 %}morning{% elif hour|add:0 < 18 %}afternoon{% else %}evening{% endif %}{% if user.is_authenticated %}, {{ user.username }}{% endif %}</h1>
+  <p class="hero-sub">Pick up where you left off or discover something new.</p>
+</section>
+
+{% if playlists %}
+<section class="row-section">
+  <div class="section-head"><h2>Your playlists</h2><a href="{% url 'playlists' %}">See all</a></div>
+  <div class="card-grid">
+    {% for pl in playlists %}
+    <a href="{% url 'playlist_detail' pl.pk %}" class="playlist-card">
+      <div class="playlist-card-art">
+        {% with covers=pl.cover_urls %}
+          {% if covers %}
+            {% for c in covers|slice:":1" %}<img src="{{ c }}" alt="">{% endfor %}
+          {% else %}
+            <div class="art-fallback">&#9835;</div>
+          {% endif %}
+        {% endwith %}
+      </div>
+      <p class="song-card-title">{{ pl.name }}</p>
+      <p class="song-card-artist">{{ pl.song_count }} songs</p>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if recently_played %}
+<section class="row-section">
+  <div class="section-head"><h2>Recently played</h2></div>
+  <div class="card-grid" id="recently-played-grid">
+    {% for song in recently_played %}{% include "partials/song_card.html" %}{% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="row-section">
+  <div class="section-head"><h2>Recently added</h2></div>
+  <div class="card-grid" id="recently-added-grid">
+    {% for song in recently_added %}{% include "partials/song_card.html" %}{% endfor %}
+  </div>
+</section>
+
+<section class="row-section">
+  <div class="section-head"><h2>Popular right now</h2></div>
+  <div class="card-grid" id="popular-grid">
+    {% for song in popular %}{% include "partials/song_card.html" %}{% endfor %}
+  </div>
+</section>
+
+{% if albums %}
+<section class="row-section">
+  <div class="section-head"><h2>Albums</h2></div>
+  <div class="card-grid">
+    {% for album in albums %}
+    <div class="playlist-card">
+      <div class="playlist-card-art">
+        {% if album.cover_image %}<img src="{{ album.cover_image.url }}" alt="">{% else %}<div class="art-fallback">&#9835;</div>{% endif %}
+      </div>
+      <p class="song-card-title">{{ album.title }}</p>
+      <p class="song-card-artist">{{ album.artist.name }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if artists %}
+<section class="row-section">
+  <div class="section-head"><h2>Artists</h2></div>
+  <div class="card-grid">
+    {% for artist in artists %}
+    <div class="playlist-card artist-card">
+      <div class="playlist-card-art round">
+        {% if artist.image %}<img src="{{ artist.image.url }}" alt="">{% else %}<div class="art-fallback">&#9835;</div>{% endif %}
+      </div>
+      <p class="song-card-title">{{ artist.name }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if genres %}
+<section class="row-section">
+  <div class="section-head"><h2>Genres</h2></div>
+  <div class="genre-grid">
+    {% for genre in genres %}
+    <div class="genre-tile">{{ genre.name }}</div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}
