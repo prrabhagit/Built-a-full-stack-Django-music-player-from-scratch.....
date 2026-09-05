@@ -22,9 +22,8 @@ from .models import (
 )
 
 
-# ---------------------------------------------------------------------------
 # Page views (server-rendered templates)
-# ---------------------------------------------------------------------------
+
 
 def home(request):
     recently_added = Song.objects.select_related("artist", "album")[:12]
