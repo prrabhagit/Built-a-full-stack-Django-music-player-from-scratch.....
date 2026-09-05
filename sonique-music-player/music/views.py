@@ -21,7 +21,6 @@ from .models import (
     Song,
 )
 
-
 # Page views (server-rendered templates)
 
 
